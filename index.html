@@ -1,16 +1,42 @@
 <html>
   <head>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="js/modernizr-1.6.min.js"></script>
-    <script src="js/app.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet"></link>
     <style>
       .needImage {
-        font-weight: bold;
+        text-decoration: underline;
       }
     </style>
     </head>
     <body>
-      <dl id="results">
-      </dl>
+
+      <div class="container">
+
+        <div class="masthead">
+          <h3 class="muted">Nearby Wikipedia Articles</h3>
+        </div>
+
+        <dl id="results">
+        </dl>
+
+      </div>
+
+      <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/modernizr-1.6.min.js"></script>
+      <script src="js/app.js"></script>
+      <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-16871278-1']);
+              _gaq.push(['_trackPageview']);
+      (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+      })();
+      </script>
    </body>
 </html>
