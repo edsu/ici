@@ -1,10 +1,19 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet"></link>
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet"></link>
     <style>
+      #results li {
+        list-style: none;
+        border: thin solid #dddddd;
+        margin: 10px;
+        padding: 10px;
+      }
       .needImage {
-        text-decoration: underline;
+        background-color: pink;
+      }
+      #summary {
       }
     </style>
     </head>
@@ -12,12 +21,20 @@
 
       <div class="container">
 
-        <div class="masthead">
-          <h3 class="muted">Nearby Wikipedia Articles</h3>
+        <div class="row">
+        <div class="masthead span6 offset3 text-center">
+          <h3>Nearby Wikipedia Articles</h3>
+        </div>
         </div>
 
-        <dl id="results">
-        </dl>
+        <div class="row">
+          <p class="span6 offset3" id="summary">Below are some Wikipedia articles related to where you are right now.  Articles with a pink background below need an image, which you can <a href="https://blog.wikimedia.org/2013/03/28/add-an-image-to-this-article-uploads-now-live-on-mobile-wikipedia/">easily upload</a> form your smartphone now, if you are logged into Wikipedia!</p>
+        </div>
+
+        <div class="row">
+        <ul id="results" class="span6 offset3">
+        </ul>
+        </div>
 
       </div>
 

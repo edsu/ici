@@ -20,11 +20,11 @@ location = (position) ->
 
 this.lookup = (geo) ->
   titles = (encodeURIComponent(article.title) for article in geo.geonames).join("|")
-  url = "http://en.wikipedia.org/w/api.php?action=query&prop=images&format=json&titles=#{titles}&callback=?&imlimit=500" + pageSize 
+  url = "http://en.wikipedia.org/w/api.php?action=query&prop=images&format=json&titles=#{titles}&callback=?&imlimit=500"
   console.log url
   $.getJSON url, (wiki) ->
     results = interleave(geo, wiki)
-    drawMap(results)
+    output(results)
 
 interleave = (geo, wiki) ->
   images = {}
@@ -39,11 +39,10 @@ interleave = (geo, wiki) ->
 
   return geo.geonames
 
-drawMap = (results) ->
-  dl = $("#results")
+output = (results) ->
+  ul = $("#results")
   for article in results
-    dt = $("<dt><a href='http://#{ article.wikipediaUrl }'>#{ article.title }</a></dt>")
+    li = $("<li><a class='title' href='http://#{ article.wikipediaUrl }'>#{ article.title }</a><span class='summary hidden-phone'>: #{ article.summary }</span></li>")
     if article.images.length == 0
-      dt.addClass("needImage")
-    dl.append(dt)
-    dl.append($("<dd>#{ article.summary }</dd>"))
+      li.addClass("needImage")
+    ul.append(li)
