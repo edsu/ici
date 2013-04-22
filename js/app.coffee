@@ -1,28 +1,30 @@
 # assumes jQuery and Modernizr are available
 
 pageSize = 25
+refreshRate = 60 * 1000
+seen = {}
 
 jQuery ->
   $ = jQuery
-  init()
+  locate()
 
-init = ->
-  $(window).bind('hashchange', display)
-  lat = $.bbq.getState('lat')
-  lon = $.bbq.getState('lon')
-  if lat and lon
-    display()
-  else if Modernizr.geolocation
+locate = =>
+  console.log "looking up coordinates"
+  if Modernizr.geolocation
     navigator.geolocation.getCurrentPosition (pos) ->
-      $.bbq.pushState(lat: pos.coords.latitude, lon: pos.coords.longitude)
-      display(lat, lon)
-  else
-    console.log "no geo :-("
+      lat = parseInt(pos.coords.latitude * 10000) / 10000
+      lon = parseInt(pos.coords.longitude * 10000) / 10000
+      $.bbq.pushState(lat: lat, lon: lon)
+      display()
+  setTimeout locate, refreshRate
 
 display = ->
   lat = $.bbq.getState('lat')
   lon = $.bbq.getState('lon')
-  console.log "display #{lat} #{lon}"
+  # don't look up same lat/lon more than once
+  if seen["#{lat}:#{lon}"]
+    return
+  seen["#{lat}:#{lon}"] = true
   url = "http://api.geonames.org/findNearbyWikipediaJSON?lat=#{lat}&lng=#{lon}&radius=10&username=wikimedia&maxRows=" + pageSize
   console.log url
   $.ajax url: url, dataType: "jsonp", jsonpCallback: 'articles'
@@ -30,17 +32,26 @@ display = ->
 this.articles = (geo) ->
   ul = $("#results")
   for article in geo.geonames
-    ul.append($("<li><a class='title' href='http://#{ article.wikipediaUrl }'>#{ article.title }</a><span class='summary hidden-phone'>: #{ article.summary }</span></li>"))
+    url = "http://" + article.wikipediaUrl
+    # do not repeatedly add the same article
+    if $("a[href='#{ url }']").length == 1
+      continue
+    ul.prepend($("<li><a class='title' href='#{ url }'>#{ article.title }</a><span class='summary hidden-phone'>: #{ article.summary }</span></li>").hide())
   checkImages()
 
 checkImages = ->
   $("#results li").each (i, li) ->
+    # no need to check the same article twice for images
+    if $(li).data('checked')
+      return
+
     title = $(this).find("a").text()
     getImages title, (images) ->
       if images.length == 0
         $(li).addClass("needImage")
-      else
-        $(li).addClass("hasImage")
+      $(li)
+        .data("checked", true)
+        .slideDown()
 
 getImages = (title, callback) ->
   url = "http://en.wikipedia.org/w/api.php?action=query&prop=images&format=json&titles=#{title}&callback=?&imlimit=500"
