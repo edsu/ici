@@ -35,7 +35,7 @@ this.articles = (geo) ->
     # do not repeatedly add the same article
     if $("a[href='#{ url }']").length == 1
       continue
-    ul.prepend($("<li><a class='title' href='#{ url }'>#{ article.title }</a><span class='summary hidden-phone'>: #{ article.summary }</span></li>").hide())
+    ul.prepend($("<li><a target='_new' class='title' href='#{ url }'>#{ article.title }</a><span class='summary hidden-phone'>: #{ article.summary }</span></li>").hide())
   checkImages()
 
 checkImages = ->
