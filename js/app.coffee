@@ -1,15 +1,14 @@
 # assumes jQuery and Modernizr are available
 
+seen = {}
 pageSize = 25
 refreshRate = 60 * 1000
-seen = {}
 
 jQuery ->
   $ = jQuery
   locate()
 
 locate = =>
-  console.log "looking up coordinates"
   if Modernizr.geolocation
     navigator.geolocation.getCurrentPosition (pos) ->
       lat = parseInt(pos.coords.latitude * 10000) / 10000

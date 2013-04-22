@@ -3,11 +3,11 @@
   var checkImages, display, getImages, locate, pageSize, refreshRate, seen,
     _this = this;
 
+  seen = {};
+
   pageSize = 25;
 
   refreshRate = 60 * 1000;
-
-  seen = {};
 
   jQuery(function() {
     var $;
@@ -16,7 +16,6 @@
   });
 
   locate = function() {
-    console.log("looking up coordinates");
     if (Modernizr.geolocation) {
       navigator.geolocation.getCurrentPosition(function(pos) {
         var lat, lon;
