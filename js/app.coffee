@@ -19,7 +19,7 @@ locate = =>
       $.bbq.pushState(lat: lat, lon: lon)
       display()
 
-display = ->
+display = =>
   lat = $.bbq.getState('lat')
   lon = $.bbq.getState('lon')
   # don't look up same lat/lon more than once
@@ -28,10 +28,10 @@ display = ->
   seen["#{lat}:#{lon}"] = true
   url = "http://api.geonames.org/findNearbyWikipediaJSON?lat=#{lat}&lng=#{lon}&radius=10&username=wikimedia&maxRows=" + pageSize
   console.log url
-  $.ajax url: url, dataType: "jsonp", jsonpCallback: 'articles'
+  $.ajax url: url, dataType: "jsonp", success: articles
   setTimeout locate, refreshRate
 
-this.articles = (geo) ->
+articles = (geo) =>
   ul = $("#results")
   for article in geo.geonames
     url = "http://" + article.wikipediaUrl
@@ -41,7 +41,7 @@ this.articles = (geo) ->
     ul.prepend($("<li><a target='_new' class='title' href='#{ url }'>#{ article.title }</a><span class='summary hidden-phone'>: #{ article.summary }</span></li>").hide())
   checkImages()
 
-checkImages = ->
+checkImages = =>
   $("#results li").each (i, li) ->
     # no need to check the same article twice for images
     if $(li).data('checked')
@@ -55,7 +55,7 @@ checkImages = ->
         .data("checked", true)
         .slideDown()
 
-getImages = (title, callback) ->
+getImages = (title, callback) =>
   url = "http://en.wikipedia.org/w/api.php?action=query&prop=images&format=json&titles=#{title}&callback=?&imlimit=500"
   $.getJSON url, (data) ->
     images = []
