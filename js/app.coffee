@@ -1,12 +1,15 @@
-# assumes jQuery and Modernizr are available
+# assumes jquery, modernizr and bbq are available
 
 seen = {}
 pageSize = 25
-refreshRate = 60 * 1000
+refreshRate = 30 * 1000
 
 jQuery ->
   $ = jQuery
-  locate()
+  if $.bbq.getState('lat') and $.bbq.getState('lon')
+    display()
+  else
+    locate()
 
 locate = =>
   if Modernizr.geolocation
@@ -15,7 +18,6 @@ locate = =>
       lon = parseInt(pos.coords.longitude * 10000) / 10000
       $.bbq.pushState(lat: lat, lon: lon)
       display()
-  setTimeout locate, refreshRate
 
 display = ->
   lat = $.bbq.getState('lat')
@@ -27,6 +29,7 @@ display = ->
   url = "http://api.geonames.org/findNearbyWikipediaJSON?lat=#{lat}&lng=#{lon}&radius=10&username=wikimedia&maxRows=" + pageSize
   console.log url
   $.ajax url: url, dataType: "jsonp", jsonpCallback: 'articles'
+  setTimeout locate, refreshRate
 
 this.articles = (geo) ->
   ul = $("#results")

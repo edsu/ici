@@ -7,17 +7,21 @@
 
   pageSize = 25;
 
-  refreshRate = 60 * 1000;
+  refreshRate = 30 * 1000;
 
   jQuery(function() {
     var $;
     $ = jQuery;
-    return locate();
+    if ($.bbq.getState('lat') && $.bbq.getState('lon')) {
+      return display();
+    } else {
+      return locate();
+    }
   });
 
   locate = function() {
     if (Modernizr.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(pos) {
+      return navigator.geolocation.getCurrentPosition(function(pos) {
         var lat, lon;
         lat = parseInt(pos.coords.latitude * 10000) / 10000;
         lon = parseInt(pos.coords.longitude * 10000) / 10000;
@@ -28,7 +32,6 @@
         return display();
       });
     }
-    return setTimeout(locate, refreshRate);
   };
 
   display = function() {
@@ -41,11 +44,12 @@
     seen["" + lat + ":" + lon] = true;
     url = ("http://api.geonames.org/findNearbyWikipediaJSON?lat=" + lat + "&lng=" + lon + "&radius=10&username=wikimedia&maxRows=") + pageSize;
     console.log(url);
-    return $.ajax({
+    $.ajax({
       url: url,
       dataType: "jsonp",
       jsonpCallback: 'articles'
     });
+    return setTimeout(locate, refreshRate);
   };
 
   this.articles = function(geo) {
@@ -58,7 +62,7 @@
       if ($("a[href='" + url + "']").length === 1) {
         continue;
       }
-      ul.prepend($("<li><a class='title' href='" + url + "'>" + article.title + "</a><span class='summary hidden-phone'>: " + article.summary + "</span></li>").hide());
+      ul.prepend($("<li><a target='_new' class='title' href='" + url + "'>" + article.title + "</a><span class='summary hidden-phone'>: " + article.summary + "</span></li>").hide());
     }
     return checkImages();
   };
