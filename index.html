@@ -3,8 +3,12 @@
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet"></link>
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet"></link>
+    <link href="css/leaflet.awesome-markers.css" rel="stylesheet"></link>
+    <link href="css/font-awesome.min.css" rel="stylesheet"></link>
+    <link href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" rel="stylesheet"></link>
     <style>
       #results li {
+        clear: both;
         list-style: none;
         border: thin solid #dddddd;
         margin: 10px;
@@ -15,10 +19,18 @@
       }
       #summary {
       }
+      #map {
+        position: absolute;
+        height: 600px;
+      }
+      .masthead h3 {
+        z-index: 10000;
+      }
     </style>
     </head>
     <body>
-        <a class="hidden-phone" href="http://github.com/edsu/ici"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" /></a> 
+      <a class="hidden-phone" href="http://github.com/edsu/ici"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" /></a> 
+
 
       <div class="container">
 
@@ -29,12 +41,11 @@
         </div>
 
         <div class="row">
-          <p class="span6 offset3" id="summary">Below are some Wikipedia articles related to where you are right now.  Articles with a <span style="color: pink; font-weight: bold;">pink</span> background below need an image, which you can <a href="https://blog.wikimedia.org/2013/03/28/add-an-image-to-this-article-uploads-now-live-on-mobile-wikipedia/">easily upload</a> from your smartphone, if you are logged into Wikipedia!  The list of articles should update every minute, which is fun if you are on a bus or a train...but not so fun if you are on a bike or driving a car.</p>
+          <div class="span12 text-center" id="map"></div> 
         </div>
 
         <div class="row">
-          <ul id="results" class="span6 offset3">
-          </ul>
+          <p class="span7 offset2" id="summary">Below are some Wikipedia articles related to where you are right now.  Articles with a <span style="color: pink; font-weight: bold;">pink</span> background below need an image, which you can <a href="https://blog.wikimedia.org/2013/03/28/add-an-image-to-this-article-uploads-now-live-on-mobile-wikipedia/">easily upload</a> from your smartphone, if you are logged into Wikipedia!  The list of articles should update every minute, which is fun if you are on a bus or a train...but not so fun if you are on a bike or driving a car.</p>
         </div>
 
       </div>
@@ -42,8 +53,10 @@
       <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/modernizr-1.6.min.js"></script>
-      <script src="js/app.js"></script>
       <script src="js/jquery.ba-bbq.js"></script>
+      <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+      <script src="js/leaflet.awesome-markers.min.js"></script>
+      <script src="js/app.js"></script>
       <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-16871278-1']);
