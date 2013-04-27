@@ -78,14 +78,8 @@ drawMap = (lat, lon) =>
     map = L.map('map').setView([lat, lon], 14)
     layer = L.tileLayer 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', maxZoom:22 
     layer.addTo(map)
-
     map.on 'dragend', (e) ->
       center = map.getCenter()
       console.log center
       $.bbq.pushState(lat: center.lat, lon: center.lng)
       display()
-  else
-    console.log("moving to #{lat} #{lon}")
-    map.setView([lat, lon], 14)
-    display()
-

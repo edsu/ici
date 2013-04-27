@@ -160,10 +160,6 @@
         });
         return display();
       });
-    } else {
-      console.log("moving to " + lat + " " + lon);
-      map.setView([lat, lon], 14);
-      return display();
     }
   };
 
