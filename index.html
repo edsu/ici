@@ -1,6 +1,12 @@
 <html>
   <head>
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="ici - Wikipedia Articles Here" />
+    <meta property="og:url" content="http://inkdroid.org/ici/" />
+    <meta property="og:image" content="http://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikipedia-logo-en-big.png/489px-Wikipedia-logo-en-big.png" />
+    <link rel="shortcut icon" href="https://bits.wikimedia.org/favicon/commons.ico"></link>
+    <meta property="" content="" />
+    <meta property="" content="" />
     <link href="css/bootstrap.min.css" rel="stylesheet"></link>
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet"></link>
     <link href="css/leaflet.awesome-markers.css" rel="stylesheet"></link>
@@ -20,12 +26,18 @@
       #summary {
       }
       #map {
-        position: absolute;
-        height: 600px;
+        height: 100%;
       }
       .masthead h3 {
         z-index: 10000;
       }
+
+      @media (max-width: 400px) {
+        .summary {
+          width: 200px;
+        }
+      }
+
     </style>
     </head>
     <body>
@@ -34,8 +46,8 @@
       <div class="container">
 
         <div class="row">
-        <div class="masthead span6 offset3 text-center">
-          <h3>ici<span class="hidden-phone"> - Wikipedia Articles <em>Here</em></span></h3>
+        <div class="hidden-phone masthead span6 offset3 text-center">
+          <h3><strong style="color: green; text-decoration: underline;">ici</strong> - Wikipedia Articles <em>Here</em></h3>
         </div>
         </div>
 

@@ -4,7 +4,7 @@ map = null
 markers = {}
 seenPosition = {}
 pageSize = 100
-refreshRate = 30 * 1000
+refreshRate = 60 * 1000
 
 jQuery ->
   $ = jQuery
@@ -76,9 +76,9 @@ getImages = (title, callback) =>
 drawMap = (lat, lon) =>
   if not map
     map = L.map('map').setView([lat, lon], 14)
-    L.tileLayer('http://{s}.tile.cloudmade.com/8ee2a50541944fb9bcedded5165f09d9/997@2X/256/{z}/{x}/{y}.png', {
-      maxZoom: 22 
-    }).addTo(map)
+    layer = L.tileLayer 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', maxZoom:22 
+    layer.addTo(map)
+
     map.on 'dragend', (e) ->
       center = map.getCenter()
       console.log center
