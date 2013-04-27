@@ -32,7 +32,7 @@ display = =>
     return
   seenPosition["#{lat}:#{lon}"] = true
   url = "http://api.geonames.org/findNearbyWikipediaJSON?lat=#{lat}&lng=#{lon}&radius=30&username=wikimedia&maxRows=" + pageSize
-  console.log url
+  console.log "fetching more articles: #{url}"
   $.ajax url: url, dataType: "jsonp", success: articles
   drawMap(lat, lon)
 
@@ -57,7 +57,6 @@ checkImages = =>
     marker.checked = true
     getImages title, (title, images) =>
       if images.length == 0
-        console.log title, images
         marker = markers[title]
         red = L.AwesomeMarkers.icon(icon: 'icon-camera-retro', color: 'red')
         marker.setIcon(red)
@@ -80,6 +79,5 @@ drawMap = (lat, lon) =>
     layer.addTo(map)
     map.on 'dragend', (e) ->
       center = map.getCenter()
-      console.log center
       $.bbq.pushState(lat: center.lat, lon: center.lng)
       display()

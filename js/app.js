@@ -59,7 +59,7 @@
     }
     seenPosition["" + lat + ":" + lon] = true;
     url = ("http://api.geonames.org/findNearbyWikipediaJSON?lat=" + lat + "&lng=" + lon + "&radius=30&username=wikimedia&maxRows=") + pageSize;
-    console.log(url);
+    console.log("fetching more articles: " + url);
     $.ajax({
       url: url,
       dataType: "jsonp",
@@ -106,7 +106,6 @@
         var red;
 
         if (images.length === 0) {
-          console.log(title, images);
           marker = markers[title];
           red = L.AwesomeMarkers.icon({
             icon: 'icon-camera-retro',
@@ -153,7 +152,6 @@
         var center;
 
         center = map.getCenter();
-        console.log(center);
         $.bbq.pushState({
           lat: center.lat,
           lon: center.lng
