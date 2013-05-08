@@ -55,7 +55,6 @@
     }
     seenPosition["" + lat + ":" + lon] = true;
     layer.fire('data:loading');
-    console.log("spinner on");
     return searchWikipedia(lat, lon, displayResults);
   };
 
@@ -88,8 +87,6 @@
         }
       }
     }
-    console.log(q.excontinue, q.cocontinue, q.tlcontinue);
-    console.log(q);
     return $.ajax({
       url: url,
       data: q,

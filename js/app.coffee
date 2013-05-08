@@ -15,6 +15,10 @@ jQuery ->
   else
     locate()
 
+#
+# get geolocation from the browser
+#
+
 locate = =>
   if Modernizr.geolocation
     navigator.geolocation.getCurrentPosition (pos) ->
@@ -22,6 +26,10 @@ locate = =>
       lon = parseInt(pos.coords.longitude * 10000) / 10000
       $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom)
       display()
+
+#
+# display the map 
+#
 
 display = =>
   lat = $.bbq.getState('lat')
@@ -36,8 +44,13 @@ display = =>
   seenPosition["#{lat}:#{lon}"] = true
 
   layer.fire('data:loading')
-  console.log("spinner on")
   searchWikipedia(lat, lon, displayResults)
+
+#
+# search Wikipedia by lat/lon, this is called recursively until 
+# all data for the search is retrieved, afterwhich the collected
+# results are sent to the supplied callback
+#
 
 searchWikipedia = (lat, lon, callback, results, queryContinue) =>
   url = "http://en.wikipedia.org/w/api.php"
@@ -66,9 +79,6 @@ searchWikipedia = (lat, lon, callback, results, queryContinue) =>
       if queryContinue[name]
         q[param] = queryContinue[name][param]
 
-  console.log q.excontinue, q.cocontinue, q.tlcontinue
-
-  console.log q
   $.ajax url: url, data: q, dataType: "jsonp", success: (response) =>
     if not results
       results = response
@@ -106,8 +116,14 @@ searchWikipedia = (lat, lon, callback, results, queryContinue) =>
      
       searchWikipedia(lat, lon, callback, results, queryContinue)
     else
+
+      # whew we're all done now
       layer.fire('data:loaded')
       callback(results)
+
+#
+# render the map with an OpenStreetMap layer
+#
 
 drawMap = (lat, lon, zoom) =>
   if not map
@@ -127,6 +143,9 @@ drawMap = (lat, lon, zoom) =>
     map.on 'zoomend', (e) ->
       $.bbq.pushState(zoom: map.getZoom())
 
+#
+# display wikipedia search results on the map
+#
 
 displayResults = (results) =>
   for articleId, article of results.query.pages
@@ -141,6 +160,10 @@ displayResults = (results) =>
     marker = getMarker(article)
     marker.addTo(map)
     markers[article.title] = marker
+
+#
+# create the appropriate map marker for a given article
+#
 
 getMarker = (article) =>
   pos = article.coordinates[0]
