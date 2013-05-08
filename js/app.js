@@ -193,6 +193,7 @@
     url = "http://en.wikipedia.org/wiki/" + article.title.replace(' ', '_');
     icon = "book";
     color = "blue";
+    help = '';
     needsWorkTemplates = ["Template:Copy edit", "Template:Cleanup-copyedit", "Template:Cleanup-english", "Template:Copy-edit", "Template:Copyediting", "Template:Gcheck", "Template:Grammar", "Template:Copy edit-section", "Template:Copy edit-inline", "Template messages/Cleanup", "Template:Tone"];
     _ref = article.templates;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

@@ -170,6 +170,7 @@ getMarker = (article) =>
   url = "http://en.wikipedia.org/wiki/" + article.title.replace(' ', '_')
   icon = "book"
   color = "blue"
+  help = ''
 
   needsWorkTemplates = [
     "Template:Copy edit",
