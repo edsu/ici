@@ -21,11 +21,21 @@ jQuery ->
 
 locate = =>
   if Modernizr.geolocation
-    navigator.geolocation.getCurrentPosition (pos) ->
-      lat = parseInt(pos.coords.latitude * 10000) / 10000
-      lon = parseInt(pos.coords.longitude * 10000) / 10000
-      $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom)
-      display()
+    navigator.geolocation.getCurrentPosition(
+      (pos) ->
+        lat = parseInt(pos.coords.latitude * 10000) / 10000
+        lon = parseInt(pos.coords.longitude * 10000) / 10000
+        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom)
+        display()
+      (error) ->
+        lat = lat=38.8951
+        lon = -77.0363
+        zoom = 16
+        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom)
+        $("#byline").replaceWith("HTML Geo features are not available in your browser ... so here's Washington DC")
+        display()
+      timeout: 10000
+    )
 
 #
 # display the map 
