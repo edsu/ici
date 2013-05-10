@@ -8,7 +8,7 @@ from your mobile device, since Wikipedia has streamlined the process.
 Articles with orange markers are in need of some kind of copy-editing or
 additional citations.
 
-ici uses a JavaScript library called [wikigeo.js](http://github.com/edsu/wikigeo) to get georss out of the Wikipedia API, which it then adds to a [Leaflet](http://leafletjs.com) map with tiles from [OpenStreetMap](http://www.openstreetmap.org).
+ici uses a JavaScript library called [wikigeo.js](http://github.com/edsu/wikigeo) to get geojson out of the Wikipedia API, which it then adds to a [Leaflet](http://leafletjs.com) map with tiles from [OpenStreetMap](http://www.openstreetmap.org).
 
 License
 -------
