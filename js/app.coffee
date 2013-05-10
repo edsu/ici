@@ -6,7 +6,7 @@ markers = {}
 seenPosition = {}
 pageSize = 100
 refreshRate = 30 * 1000
-defaultZoom = 16
+defaultZoom = 15
 
 jQuery ->
   $ = jQuery
