@@ -97,7 +97,6 @@ displayResults = (results) =>
       continue
 
     # can't add it to the map if the API won't tell us the coordinates :(
-    console.log article
     if not article.geometry or not article.geometry.coordinates
       console.log "article #{article.properties.name} missing geo from api"
       continue
@@ -133,11 +132,11 @@ getMarker = (article) =>
   ]
 
   for template in article.properties.templates
-    if template.title in needsWorkTemplates
+    if template in needsWorkTemplates
       icon = "icon-edit"
       color = "orange"
       help = "This article is in need of copy-editing."
-    if template.title in ["Citation needed", "Citation"]
+    if template in ["Citation needed", "Citation"]
       icon = "icon-external-link"
       color = "orange"
       help = "This article needs one or more citations."

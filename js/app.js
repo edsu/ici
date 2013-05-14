@@ -123,7 +123,6 @@
       if (markers[article.properties.name]) {
         continue;
       }
-      console.log(article);
       if (!article.geometry || !article.geometry.coordinates) {
         console.log("article " + article.properties.name + " missing geo from api");
         continue;
@@ -137,7 +136,7 @@
   };
 
   getMarker = function(article) {
-    var color, help, icon, marker, needsWorkTemplates, pos, template, url, _i, _len, _ref, _ref1, _ref2;
+    var color, help, icon, marker, needsWorkTemplates, pos, template, url, _i, _len, _ref;
 
     pos = [article.geometry.coordinates[1], article.geometry.coordinates[0]];
     url = article.id;
@@ -148,12 +147,12 @@
     _ref = article.properties.templates;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       template = _ref[_i];
-      if (_ref1 = template.title, __indexOf.call(needsWorkTemplates, _ref1) >= 0) {
+      if (__indexOf.call(needsWorkTemplates, template) >= 0) {
         icon = "icon-edit";
         color = "orange";
         help = "This article is in need of copy-editing.";
       }
-      if ((_ref2 = template.title) === "Citation needed" || _ref2 === "Citation") {
+      if (template === "Citation needed" || template === "Citation") {
         icon = "icon-external-link";
         color = "orange";
         help = "This article needs one or more citations.";
