@@ -59,9 +59,8 @@ display = =>
     limit: 250
     radius: 5000
     images: true
-    extracts: true
     summaries: true
-    templates:true
+    templates: true
     displayResults
   )
 
@@ -146,6 +145,9 @@ getMarker = (article) =>
     help = "This article needs an image."
 
   marker = L.marker pos, {title: article.properties.name, icon: L.AwesomeMarkers.icon({icon: icon, color: color})}
-  marker.bindPopup("<div class='summary'><a target='_new' href='#{url}'>#{article.properties.name}</a> - #{article.properties.summary} <div class='help'>#{help}</div></div>")
+  summary = article.properties.summary
+  if summary and summary.length > 500
+    summary = summary[0..500] + " ... "
+  marker.bindPopup("<div class='summary'><a target='_new' href='#{url}'>#{article.properties.name}</a> - #{summary} <div class='help'>#{help}</div></div>")
 
   return marker

@@ -77,7 +77,6 @@
       limit: 250,
       radius: 5000,
       images: true,
-      extracts: true,
       summaries: true,
       templates: true
     }, displayResults);
@@ -136,7 +135,7 @@
   };
 
   getMarker = function(article) {
-    var color, help, icon, marker, needsWorkTemplates, pos, template, url, _i, _len, _ref;
+    var color, help, icon, marker, needsWorkTemplates, pos, summary, template, url, _i, _len, _ref;
 
     pos = [article.geometry.coordinates[1], article.geometry.coordinates[0]];
     url = article.id;
@@ -170,7 +169,11 @@
         color: color
       })
     });
-    marker.bindPopup("<div class='summary'><a target='_new' href='" + url + "'>" + article.properties.name + "</a> - " + article.properties.summary + " <div class='help'>" + help + "</div></div>");
+    summary = article.properties.summary;
+    if (summary && summary.length > 500) {
+      summary = summary.slice(0, 501) + " ... ";
+    }
+    marker.bindPopup("<div class='summary'><a target='_new' href='" + url + "'>" + article.properties.name + "</a> - " + summary + " <div class='help'>" + help + "</div></div>");
     return marker;
   };
 
