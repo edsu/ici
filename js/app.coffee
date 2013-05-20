@@ -4,9 +4,9 @@ map = null
 layer = null
 markers = {}
 seenPosition = {}
-pageSize = 100
+resultLimit = 200
 refreshRate = 30 * 1000
-defaultZoom = 15
+defaultZoom = 16
 
 jQuery ->
   $ = jQuery
@@ -30,7 +30,7 @@ locate = =>
       (error) ->
         lat = lat=38.8951
         lon = -77.0363
-        zoom = 16
+        zoom = defaultZoom
         $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom)
         $("#byline").replaceWith("HTML Geo features are not available in your browser ... so here's Washington DC")
         display()
@@ -53,11 +53,15 @@ display = =>
 
   seenPosition["#{lat}:#{lon}"] = true
 
+  radius = mapRadius()
+  if radius > 10000
+    radius = 10000
+
   layer.fire('data:loading')
   geojson(
     [lon, lat]
-    limit: 250
-    radius: 5000
+    limit: resultLimit
+    radius: radius
     images: true
     summaries: true
     templates: true
@@ -85,7 +89,8 @@ drawMap = (lat, lon, zoom) =>
 
     map.on 'zoomend', (e) ->
       $.bbq.pushState(zoom: map.getZoom())
-
+      display()
+      
 #
 # display wikipedia search results on the map
 #
@@ -103,7 +108,7 @@ displayResults = (results) =>
     marker = getMarker(article)
     marker.addTo(map)
     markers[article.properties.name] = marker
-    layer.fire('data:loaded')
+  layer.fire('data:loaded')
 
 #
 # create the appropriate map marker for a given article
@@ -151,3 +156,9 @@ getMarker = (article) =>
   marker.bindPopup("<div class='summary'><a target='_new' href='#{url}'>#{article.properties.name}</a> - #{summary} <div class='help'>#{help}</div></div>")
 
   return marker
+
+mapRadius = ->
+  ne = map.getBounds().getNorthEast()
+  radius = ne.distanceTo(map.getCenter())
+  console.log("radius=#{radius}")
+  return radius
