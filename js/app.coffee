@@ -47,15 +47,14 @@ display = =>
   zoom = $.bbq.getState('zoom')
   drawMap(lat, lon, zoom)
 
-  # don't look up same lat/lon more than once
-  if seenPosition["#{lat}:#{lon}"]
-    return
-
-  seenPosition["#{lat}:#{lon}"] = true
-
   radius = mapRadius()
   if radius > 10000
     radius = 10000
+
+  # don't look up same lat/lon more than once
+  if seenPosition["#{lat}:#{lon}:#{radius}"]
+    return
+  seenPosition["#{lat}:#{lon}:#{radius}"] = true
 
   layer.fire('data:loading')
   geojson(

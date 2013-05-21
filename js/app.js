@@ -68,14 +68,14 @@
     lon = $.bbq.getState('lon');
     zoom = $.bbq.getState('zoom');
     drawMap(lat, lon, zoom);
-    if (seenPosition["" + lat + ":" + lon]) {
-      return;
-    }
-    seenPosition["" + lat + ":" + lon] = true;
     radius = mapRadius();
     if (radius > 10000) {
       radius = 10000;
     }
+    if (seenPosition["" + lat + ":" + lon + ":" + radius]) {
+      return;
+    }
+    seenPosition["" + lat + ":" + lon + ":" + radius] = true;
     layer.fire('data:loading');
     return geojson([lon, lat], {
       limit: resultLimit,
