@@ -22,7 +22,7 @@
     var $;
 
     $ = jQuery;
-    if ($.bbq.getState('lat') && $.bbq.getState('lon') && $.bbq.getState('zoom')) {
+    if ($.bbq.getState('lat') && $.bbq.getState('lon')) {
       return display();
     } else {
       return locate();
@@ -66,7 +66,7 @@
 
     lat = $.bbq.getState('lat');
     lon = $.bbq.getState('lon');
-    zoom = $.bbq.getState('zoom');
+    zoom = $.bbq.getState('zoom') || defaultZoom;
     drawMap(lat, lon, zoom);
     radius = mapRadius();
     if (radius > 10000) {

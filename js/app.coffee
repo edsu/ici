@@ -10,7 +10,7 @@ defaultZoom = 16
 
 jQuery ->
   $ = jQuery
-  if $.bbq.getState('lat') and $.bbq.getState('lon') and $.bbq.getState('zoom')
+  if $.bbq.getState('lat') and $.bbq.getState('lon')
     display()
   else
     locate()
@@ -44,7 +44,7 @@ locate = =>
 display = =>
   lat = $.bbq.getState('lat')
   lon = $.bbq.getState('lon')
-  zoom = $.bbq.getState('zoom')
+  zoom = $.bbq.getState('zoom') or defaultZoom
   drawMap(lat, lon, zoom)
 
   radius = mapRadius()
