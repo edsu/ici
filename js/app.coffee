@@ -13,13 +13,7 @@ jQuery ->
   $ = jQuery
 
   # update the map if the language is changed
-  $('select[name="language"]').change ->
-    language = $(this).val()
-    for name, marker of markers
-      console.log marker
-      map.removeLayer(marker)
-    display()
-
+  $('select[name="language"]').change updateLanguage
   if $.bbq.getState('lat') and $.bbq.getState('lon')
     display()
   else
@@ -35,14 +29,14 @@ locate = =>
       (pos) ->
         lat = parseInt(pos.coords.latitude * 10000) / 10000
         lon = parseInt(pos.coords.longitude * 10000) / 10000
-        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom, lang: language)
+        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom, language: language)
         display()
       (error) ->
         lat = lat=38.8951
         lon = -77.0363
         zoom = defaultZoom
-        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom, lang: language)
-        $("#byline").replaceWith("HTML Geo features are not available in your browser ... so here's Washington DC")
+        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom, language: language)
+        $("#byline").replaceWith("HTML Geo features are not available in your browser ... so here's Washington DC<br><br>")
         display()
       timeout: 10000
     )
@@ -55,7 +49,12 @@ display = =>
   lat = $.bbq.getState('lat')
   lon = $.bbq.getState('lon')
   zoom = $.bbq.getState('zoom') or defaultZoom
+  language = $.bbq.getState('language') or language
   drawMap(lat, lon, zoom)
+
+  # set language as appropriate
+  $('select option[value="' + language + '"]')
+    .prop('selected', true)
 
   radius = mapRadius()
   if radius > 10000
@@ -64,7 +63,7 @@ display = =>
   # don't look up same lat/lon more than once
   if seenPosition["#{lat}:#{lon}:#{radius}:#{language}"]
     return
-  seenPosition["#{lat}:#{lon}:#{radius}"] = true
+  seenPosition["#{lat}:#{lon}:#{radius}:#{language}"] = true
 
   layer.fire('data:loading')
   geojson(
@@ -172,3 +171,13 @@ mapRadius = ->
   radius = ne.distanceTo(map.getCenter())
   console.log("radius=#{radius}")
   return radius
+
+updateLanguage = ->
+    newLanguage = $(this).val()
+    if newLanguage != language
+      $.bbq.pushState(language: newLanguage)
+      for name, marker of markers
+        map.removeLayer(marker)
+      display()
+
+
