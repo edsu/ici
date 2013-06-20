@@ -7,9 +7,19 @@ seenPosition = {}
 resultLimit = 200
 refreshRate = 30 * 1000
 defaultZoom = 16
+language = 'en'
 
 jQuery ->
   $ = jQuery
+
+  # update the map if the language is changed
+  $('select[name="language"]').change ->
+    language = $(this).val()
+    for name, marker of markers
+      console.log marker
+      map.removeLayer(marker)
+    display()
+
   if $.bbq.getState('lat') and $.bbq.getState('lon')
     display()
   else
@@ -25,13 +35,13 @@ locate = =>
       (pos) ->
         lat = parseInt(pos.coords.latitude * 10000) / 10000
         lon = parseInt(pos.coords.longitude * 10000) / 10000
-        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom)
+        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom, lang: language)
         display()
       (error) ->
         lat = lat=38.8951
         lon = -77.0363
         zoom = defaultZoom
-        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom)
+        $.bbq.pushState(lat: lat, lon: lon, zoom: defaultZoom, lang: language)
         $("#byline").replaceWith("HTML Geo features are not available in your browser ... so here's Washington DC")
         display()
       timeout: 10000
@@ -52,13 +62,14 @@ display = =>
     radius = 10000
 
   # don't look up same lat/lon more than once
-  if seenPosition["#{lat}:#{lon}:#{radius}"]
+  if seenPosition["#{lat}:#{lon}:#{radius}:#{language}"]
     return
   seenPosition["#{lat}:#{lon}:#{radius}"] = true
 
   layer.fire('data:loading')
   geojson(
-    [lon, lat]
+    [lon, lat],
+    language: language,
     limit: resultLimit
     radius: radius
     images: true
