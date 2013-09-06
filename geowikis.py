@@ -28,9 +28,14 @@ for name, code in wikipedias.items():
     try:
         geo = requests.get(url, headers={"User-Agent": "ici : http://github.com/edsu/ici"}).json()
         if type(geo) == dict:
+            print "y"
             geo_enabled[name] = code
+        else: 
+            print "n"
     except: 
         pass # m'eh
+
+import sys; sys.exit()
 
 # output some html
 
