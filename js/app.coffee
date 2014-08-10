@@ -162,7 +162,7 @@ getMarker = (article) =>
   summary = article.properties.summary
   if summary and summary.length > 500
     summary = summary[0..500] + " ... "
-  marker.bindPopup("<div class='summary'><a target='_new' href='#{url}'>#{article.properties.name}</a> - #{summary} <div class='help'>#{help}</div></div>")
+  marker.bindPopup("<div class=\"summary\"><a target=\"_new\" href=\"#{url}\">#{article.properties.name}</a> - #{summary} <div class=\"help\">#{help}</div></div>")
 
   return marker
 
