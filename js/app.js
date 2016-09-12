@@ -102,7 +102,7 @@
           maxZoom: 17,
           minZoom: 13
         });
-        layer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 22
         });
         layer.addTo(map);

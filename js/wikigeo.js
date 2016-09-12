@@ -52,7 +52,7 @@ example:
   _search = function(geo, opts, callback, results, queryContinue) {
     var continueParams, name, param, q, url;
 
-    url = "http://" + opts.language + ".wikipedia.org/w/api.php";
+    url = "https://" + opts.language + ".wikipedia.org/w/api.php";
     q = {
       action: "query",
       prop: "info|coordinates",
@@ -173,7 +173,7 @@ example:
         continue;
       }
       titleEscaped = article.title.replace(/\s/g, "_");
-      url = "http://" + opts.language + ".wikipedia.org/wiki/" + titleEscaped;
+      url = "https://" + opts.language + ".wikipedia.org/wiki/" + titleEscaped;
       feature = {
         id: url,
         type: "Feature",
